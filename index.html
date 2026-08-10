@@ -17,7 +17,13 @@
             <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Server Active</span>
         </header>
 
-        <div class="flex border-b border-gray-300 mb-6 space-x-2">
+        <div id="login-section">
+    <h2>Login Portal</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="handleLogin()">Login</button>
+</div>
+         <div class="flex border-b border-gray-300 mb-6 space-x-2">
             <button onclick="switchTab('passengers')" id="tab-passengers" class="py-2 px-4 font-semibold text-sm border-b-2 border-blue-600 text-blue-600 focus:outline-none">Passengers (6)</button>
             <button onclick="switchTab('staff')" id="tab-staff" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">Staff (6)</button>
             <button onclick="switchTab('flights')" id="tab-flights" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">Flights (6)</button>
@@ -232,5 +238,24 @@
             });
         }
     </script>
+    <script>
+async function handleLogin() {
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: user, password: pass })
+    });
+
+    const result = await response.json();
+    if(response.ok) {
+        alert("Login Successful!");
+    } else {
+        alert("Wrong Credentials!");
+    }
+}
+</script>
 </body>
 </html>
