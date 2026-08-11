@@ -3,67 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Airport Management System - Login</title>
+    <title>Airport Management - Full API Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
 </head>
-<body class="bg-slate-100 min-h-screen font-sans">
-
-    <!-- 1. FULL-SCREEN LOGIN SECTION -->
-    <div id="login-container" class="flex items-center justify-center min-h-screen">
-        <div class="bg-white p-8 rounded-2xl shadow-xl w-96 border border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Airport Login</h2>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                    <input type="text" id="username" placeholder="Enter username" class="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <div class="relative">
-                        <input type="password" id="password" placeholder="Enter password" class="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-16">
-                        <button type="button" onclick="togglePassword()" class="absolute right-2 top-2 text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded">Show</button>
-                    </div>
-                </div>
-
-                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 2. MAIN DASHBOARD / TESTING PORTAL (Initially Hidden) -->
-    <div id="dashboard-container" class="hidden p-6 max-w-6xl mx-auto">
+<body class="bg-slate-100 min-h-screen p-6 font-sans">
+    <div class="max-w-6xl mx-auto">
         <header class="mb-6 border-b border-gray-300 pb-4 flex justify-between items-center">
             <div>
                 <h1 class="text-3xl font-bold text-gray-800">Airport Management System</h1>
                 <p class="text-sm text-gray-500">Live API Manual Testing Portal</p>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Server Active</span>
-                <button onclick="handleLogout()" class="bg-red-500 hover:bg-red-600 text-white text-xs font-semibold px-3 py-1 rounded-lg">Logout</button>
-            </div>
+            <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">Server Active</span>
         </header>
-
-        <!-- Tabs & Endpoints Section -->
-        <div class="flex border-b border-gray-300 mb-6 space-x-2">
-            <button onclick="switchTab('passengers')" id="tab-passengers" class="py-2 px-4 font-semibold text-sm border-b-2 border-blue-600 text-blue-600">Passengers (6)</button>
-            <button onclick="switchTab('staff')" id="tab-staff" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500">Staff (6)</button>
-            <button onclick="switchTab('flights')" id="tab-flights" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500">Flights (6)</button>
-            <button onclick="switchTab('baggage')" id="tab-baggage" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500">Baggage (6)</button>
+        
+        <!-- 1. FULL-SCREEN LOGIN SECTION -->
+        <div id="login-container" class="bg-white p-8 rounded-xl shadow-md max-w-md mx-auto border border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Airport Login</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" class="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="relative">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" class="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-16">
+                    <button type="button" onclick="togglePassword()" class="absolute right-2 top-8 text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-2 py-1 rounded">Show</button>
+                </div>
+                <button onclick="handleLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200">Login</button>
+            </div>
         </div>
 
-        <!-- Dashboard Content Box -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <div id="sec-passengers" class="tab-content">
-                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Passenger Endpoints</h2>
-                
+        <!-- 2. MAIN DASHBOARD / TESTING PORTAL (Initially Hidden) -->
+        <div id="dashboard-container" class="hidden">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex border-b border-gray-300 space-x-2">
+                    <button onclick="switchTab('passengers')" id="tab-passengers" class="py-2 px-4 font-semibold text-sm border-b-2 border-blue-600 text-blue-600 focus:outline-none">Passengers (6)</button>
+                    <button onclick="switchTab('staff')" id="tab-staff" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">Staff (6)</button>
+                    <button onclick="switchTab('flights')" id="tab-flights" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">Flights (6)</button>
+                    <button onclick="switchTab('baggage')" id="tab-baggage" class="py-2 px-4 font-semibold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">Baggage (6)</button>
+                </div>
+                <button onclick="handleLogout()" class="bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold px-4 py-2 rounded-lg transition duration-200">Logout</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+
+                    <!-- PASSENGERS MODULE -->
+                    <div id="sec-passengers" class="tab-content">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Passenger Endpoints</h2>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">1 & 2. Get Passengers</span>
+                                <div class="flex gap-2">
+                                    <button onclick="sendReq('/users/passengers/', 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get All</button>
+                                    <input type="number" id="p_id" placeholder="ID" class="w-16 border px-2 py-1 rounded">
+                                    <button onclick="sendReq('/users/passengers/' + val('p_id'), 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get by ID</button>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">3. Create Passenger (POST)</span>
+                                <input type="text" id="p_name" value="Karan Pratap" placeholder="Name" class="w-full border p-1.5 rounded">
+                                <input type="email" id="p_email" value="karan@example.com" placeholder="Email" class="w-full border p-1.5 rounded">
+                                <input type="text" id="p_passport" value="P1234567" placeholder="Passport No" class="w-full border p-1.5 rounded">
+                                <button onclick="createPassenger()" class="w-full bg-blue-600 text-white py-1.5 rounded font-semibold">Create Passenger</button>
+                            </div>
+
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">4, 5 & 6. Update & Delete</span>
+                                <div class="flex gap-2 mb-2">
+                                    <input type="number" id="p_action_id" value="1" placeholder="Target ID" class="w-24 border px-2 py-1 rounded">
+                                </div>
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="sendReq('/users/passengers/' + val('p_action_id'), 'PUT', {full_name: val('p_name'), email: val('p_email'), passport_no: val('p_passport')})" class="bg-amber-500 text-white py-1 rounded font-semibold">PUT</button>
+                                    <button onclick="sendReq('/users/passengers/' + val('p_action_id'), 'PATCH', {full_name: val('p_name')})" class="bg-indigo-500 text-white py-1 rounded font-semibold">PATCH</button>
+                                    <button onclick="sendReq('/users/passengers/' + val('p_action_id'), 'DELETE')" class="bg-rose-600 text-white py-1 rounded font-semibold">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STAFF MODULE -->
+                    <div id="sec-staff" class="tab-content hidden">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Staff Endpoints</h2>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">1 & 2. Get Staff</span>
+                                <div class="flex gap-2">
+                                    <button onclick="sendReq('/users/staff/', 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get All</button>
+                                    <input type="number" id="s_id" placeholder="ID" class="w-16 border px-2 py-1 rounded">
+                                    <button onclick="sendReq('/users/staff/' + val('s_id'), 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get by ID</button>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">3. Create Staff (POST)</span>
+                                <input type="text" id="s_name" value="Rohan Sharma" placeholder="Name" class="w-full border p-1.5 rounded">
+                                <input type="text" id="s_role" value="Security Officer" placeholder="Role" class="w-full border p-1.5 rounded">
+                                <button onclick="sendReq('/users/staff/', 'POST', {name: val('s_name'), role: val('s_role')})" class="w-full bg-blue-600 text-white py-1.5 rounded font-semibold">Create Staff</button>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">4, 5 & 6. Actions</span>
+                                <input type="number" id="s_action_id" value="1" placeholder="Target ID" class="w-24 border px-2 py-1 rounded">
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="sendReq('/users/staff/' + val('s_action_id'), 'PUT', {name: val('s_name'), role: val('s_role')})" class="bg-amber-500 text-white py-1 rounded font-semibold">PUT</button>
+                                    <button onclick="sendReq('/users/staff/' + val('s_action_id'), 'PATCH', {role: val('s_role')})" class="bg-indigo-500 text-white py-1 rounded font-semibold">PATCH</button>
+                                    <button onclick="sendReq('/users/staff/' + val('s_action_id'), 'DELETE')" class="bg-rose-600 text-white py-1 rounded font-semibold">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FLIGHTS MODULE -->
+                    <div id="sec-flights" class="tab-content hidden">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Flight Endpoints</h2>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">1 & 2. Get Flights</span>
+                                <div class="flex gap-2">
+                                    <button onclick="sendReq('/users/flights/', 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get All</button>
+                                    <input type="number" id="f_id" placeholder="ID" class="w-16 border px-2 py-1 rounded">
+                                    <button onclick="sendReq('/users/flights/' + val('f_id'), 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get by ID</button>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">3. Create Flight (POST)</span>
+                                <input type="text" id="f_no" value="AI101" placeholder="Flight No" class="w-full border p-1.5 rounded">
+                                <input type="text" id="f_origin" value="Jaipur" placeholder="Origin" class="w-full border p-1.5 rounded">
+                                <input type="text" id="f_dest" value="Delhi" placeholder="Destination" class="w-full border p-1.5 rounded">
+                                <button onclick="createFlight()" class="w-full bg-blue-600 text-white py-1.5 rounded font-semibold">Create Flight</button>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">4, 5 & 6. Actions</span>
+                                <input type="number" id="f_action_id" value="1" placeholder="Target ID" class="w-24 border px-2 py-1 rounded">
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="sendReq('/users/flights/' + val('f_action_id'), 'PUT', {flight_no: val('f_no'), origin: val('f_origin'), destination: val('f_dest')})" class="bg-amber-500 text-white py-1 rounded font-semibold">PUT</button>
+                                    <button onclick="sendReq('/users/flights/' + val('f_action_id'), 'PATCH', {status: 'Delayed'})" class="bg-indigo-500 text-white py-1 rounded font-semibold">PATCH</button>
+                                    <button onclick="sendReq('/users/flights/' + val('f_action_id'), 'DELETE')" class="bg-rose-600 text-white py-1 rounded font-semibold">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAGGAGE MODULE -->
+                    <div id="sec-baggage" class="tab-content hidden">
+                        <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Baggage Endpoints</h2>
+                        <div class="space-y-4 text-sm">
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">1 & 2. Get Baggage</span>
+                                <div class="flex gap-2">
+                                    <button onclick="sendReq('/users/baggage/', 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get All</button>
+                                    <input type="number" id="b_id" placeholder="ID" class="w-16 border px-2 py-1 rounded">
+                                    <button onclick="sendReq('/users/baggage/' + val('b_id'), 'GET')" class="bg-emerald-600 text-white px-3 py-1 rounded font-semibold">Get by ID</button>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">3. Create Baggage (POST)</span>
+                                <input type="number" id="b_pass_id" value="1" placeholder="Passenger ID" class="w-full border p-1.5 rounded">
+                                <input type="number" step="0.1" id="b_weight" value="15.5" placeholder="Weight (kg)" class="w-full border p-1.5 rounded">
+                                <input type="text" id="b_status" value="Checked-In" placeholder="Status" class="w-full border p-1.5 rounded">
+                                <button onclick="createBaggage()" class="w-full bg-blue-600 text-white py-1.5 rounded font-semibold">Check-In Baggage</button>
+                            </div>
+                            <div class="p-3 bg-gray-50 rounded border space-y-2">
+                                <span class="font-bold text-gray-700">4, 5 & 6. Actions</span>
+                                <input type="number" id="b_action_id" value="1" placeholder="Target ID" class="w-24 border px-2 py-1 rounded">
+                                <div class="grid grid-cols-3 gap-2">
+                                    <button onclick="sendReq('/users/baggage/' + val('b_action_id'), 'PUT', {pass_id: parseInt(val('b_pass_id')), weight_kg: parseFloat(val('b_weight')), status: val('b_status')})" class="bg-amber-500 text-white py-1 rounded font-semibold">PUT</button>
+                                    <button onclick="sendReq('/users/baggage/' + val('b_action_id'), 'PATCH', {status: val('b_status')})" class="bg-indigo-500 text-white py-1 rounded font-semibold">PATCH</button>
+                                    <button onclick="sendReq('/users/baggage/' + val('b_action_id'), 'DELETE')" class="bg-rose-600 text-white py-1 rounded font-semibold">DELETE</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-slate-900 text-emerald-400 p-6 rounded-xl shadow-sm font-mono flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4 border-b border-gray-800 pb-3">
+                            <span class="text-xs text-gray-400 font-sans">Live Execution Output</span>
+                            <span id="status-code" class="text-xs px-2.5 py-1 rounded bg-gray-800 text-gray-300">Ready</span>
+                        </div>
+                        <pre id="output" class="text-xs overflow-auto max-h-[500px] whitespace-pre-wrap">// Select any button to execute API request...</pre>
+                    </div>
+                    <button onclick="clearOutput()" class="mt-4 text-xs text-gray-500 hover:text-gray-300 underline self-end">Clear Terminal</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Password Show/Hide Toggle Function
+        const val = (id) => document.getElementById(id).value;
+
         function togglePassword() {
             const passInput = document.getElementById('password');
             const btn = event.target;
@@ -76,7 +207,40 @@
             }
         }
 
-        // Login Handler Function
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.classList.remove('border-blue-600', 'text-blue-600');
+                el.classList.add('border-transparent', 'text-gray-500');
+            });
+            document.getElementById('sec-' + tabName).classList.remove('hidden');
+            const activeTab = document.getElementById('tab-' + tabName);
+            activeTab.classList.add('border-blue-600', 'text-blue-600');
+            activeTab.classList.remove('border-transparent', 'text-gray-500');
+        }
+
+        function displayResponse(status, data) {
+            document.getElementById('status-code').innerText = `Status: ${status}`;
+            document.getElementById('output').innerText = JSON.stringify(data, null, 2);
+        }
+
+        function clearOutput() {
+            document.getElementById('status-code').innerText = 'Ready';
+            document.getElementById('output').innerText = '// Select any button to execute API request...';
+        }
+
+        async function sendReq(url, method, body = null) {
+            try {
+                const options = { method, headers: { 'Content-Type': 'application/json' } };
+                if (body) options.body = JSON.stringify(body);
+                const res = await fetch(url, options);
+                const data = await res.json();
+                displayResponse(res.status, data);
+            } catch (e) {
+                displayResponse(500, { error: e.message });
+            }
+        }
+
         async function handleLogin() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
@@ -89,8 +253,7 @@
                 });
 
                 const result = await response.json();
-                if(response.ok) {
-                    // Hide Login screen and show Dashboard screen
+                if (response.ok) {
                     document.getElementById('login-container').classList.add('hidden');
                     document.getElementById('dashboard-container').classList.remove('hidden');
                 } else {
@@ -101,16 +264,38 @@
             }
         }
 
-        // Logout Handler Function
         function handleLogout() {
             document.getElementById('dashboard-container').classList.add('hidden');
             document.getElementById('login-container').classList.remove('hidden');
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+            clearOutput();
         }
 
-        function switchTab(tabName) {
-            
+        function createPassenger() {
+            sendReq('/users/passengers/', 'POST', {
+                full_name: val('p_name'),
+                email: val('p_email'),
+                passport_no: val('p_passport')
+            });
+        }
+
+        function createFlight() {
+            sendReq('/users/flights/', 'POST', {
+                flight_no: val('f_no'),
+                origin: val('f_origin'),
+                destination: val('f_dest'),
+                gate_no: 'A2',
+                departure_time: '2026-08-04T10:00:00'
+            });
+        }
+
+        function createBaggage() {
+            sendReq('/users/baggage/', 'POST', {
+                pass_id: parseInt(val('b_pass_id')),
+                weight_kg: parseFloat(val('b_weight')),
+                status: val('b_status')
+            });
         }
     </script>
 </body>
